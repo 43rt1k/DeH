@@ -1,13 +1,13 @@
 
 class Food  {
-    constructor(name, price, description, ingredients, nutrition, logos, image){
+    constructor(name, price, description, ingredients, nutrition, logos, imagePath){
         this.name = name; 
         this.price = price; 
         this.description = description;
         this.ingredients = ingredients;
         this.nutrition = nutrition;
         this.logos = logos;
-        this.image = image;
+        this.imagePath = imagePath;
 
     }
 
@@ -20,7 +20,7 @@ const pizza = new Food(
     { pepperoni: 150, cheese: 200, dough: 300 },
     { calories: 1200, fat: 45, protein: 60 },
     [1, 0, 1, 0, 0, 1],
-    'pizza.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const salad = new Food(
@@ -30,7 +30,7 @@ const pizza = new Food(
     { lettuce: 100, tomatoes: 50, cucumbers: 30 },
     { calories: 300, fat: 15, protein: 10 },
     [0, 1, 0, 0, 1, 0],
-    'salad.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const burger = new Food(
@@ -40,7 +40,7 @@ const pizza = new Food(
     { beef: 200, cheese: 50, lettuce: 30 },
     { calories: 800, fat: 40, protein: 45 },
     [1, 1, 0, 0, 1, 0],
-    'burger.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const pasta = new Food(
@@ -50,7 +50,7 @@ const pizza = new Food(
     { spaghetti: 300, marinara_sauce: 150, meatballs: 200 },
     { calories: 900, fat: 25, protein: 40 },
     [1, 0, 1, 0, 0, 1],
-    'pasta.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const sushi = new Food(
@@ -60,7 +60,7 @@ const pizza = new Food(
     { fish: 250, rice: 200, seaweed: 50 },
     { calories: 600, fat: 10, protein: 30 },
     [0, 1, 0, 1, 0, 1],
-    'sushi.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const steak = new Food(
@@ -70,7 +70,7 @@ const pizza = new Food(
     { steak: 300, potatoes: 150, vegetables: 100 },
     { calories: 1200, fat: 60, protein: 50 },
     [1, 0, 1, 0, 1, 0],
-    'steak.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const smoothie = new Food(
@@ -80,7 +80,7 @@ const pizza = new Food(
     { banana: 100, strawberries: 80, yogurt: 50 },
     { calories: 400, fat: 5, protein: 15 },
     [0, 1, 0, 0, 1, 0],
-    'smoothie.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const tacos = new Food(
@@ -90,7 +90,7 @@ const pizza = new Food(
     { beef: 200, salsa: 50, guacamole: 30 },
     { calories: 700, fat: 35, protein: 25 },
     [1, 0, 1, 0, 0, 1],
-    'tacos.jpg'
+    require('../assets/foodImages/testImg1.jpg')
   );
 
   const foodArray = [pizza, salad, burger, pasta, sushi, steak, smoothie, tacos];
