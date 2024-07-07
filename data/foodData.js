@@ -18,7 +18,7 @@ const pizza = new Food(
     12.99,
     'Delicious Italian pizza with pepperoni and cheese',
     { pepperoni: 150, cheese: 200, dough: 300 },
-    { calories: 1200, fat: 45, protein: 60 },
+    { calories: 1200, glucides: 45, proteines: 60, lipides: 420 },
     [1, 0, 1, 0, 0, 1],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -28,7 +28,7 @@ const pizza = new Food(
     8.99,
     'Fresh garden salad with mixed greens and vinaigrette',
     { lettuce: 100, tomatoes: 50, cucumbers: 30 },
-    { calories: 300, fat: 15, protein: 10 },
+    { calories: 300, glucides: 15, proteines: 10, lipides: 420 },
     [0, 1, 0, 0, 1, 0],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -38,7 +38,7 @@ const pizza = new Food(
     9.99,
     'Juicy beef burger with lettuce, tomato, and cheese',
     { beef: 200, cheese: 50, lettuce: 30 },
-    { calories: 800, fat: 40, protein: 45 },
+    { calories: 800, glucides: 40, proteines: 45, lipides: 420 },
     [1, 1, 0, 0, 1, 0],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -48,7 +48,7 @@ const pizza = new Food(
     11.49,
     'Classic spaghetti with marinara sauce and meatballs',
     { spaghetti: 300, marinara_sauce: 150, meatballs: 200 },
-    { calories: 900, fat: 25, protein: 40 },
+    { calories: 900, glucides: 25, proteines: 40, lipides: 420 },
     [1, 0, 1, 0, 0, 1],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -58,7 +58,7 @@ const pizza = new Food(
     14.99,
     'Assorted sushi rolls with fresh fish and seaweed',
     { fish: 250, rice: 200, seaweed: 50 },
-    { calories: 600, fat: 10, protein: 30 },
+    { calories: 600, glucides: 10, proteines: 30, lipides: 420 },
     [0, 1, 0, 1, 0, 1],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -68,7 +68,7 @@ const pizza = new Food(
     19.99,
     'Grilled sirloin steak with mashed potatoes and vegetables',
     { steak: 300, potatoes: 150, vegetables: 100 },
-    { calories: 1200, fat: 60, protein: 50 },
+    { calories: 1200, glucides: 60, proteines: 50, lipides: 420 },
     [1, 0, 1, 0, 1, 0],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -78,7 +78,7 @@ const pizza = new Food(
     6.49,
     'Refreshing fruit smoothie with bananas, strawberries, and yogurt',
     { banana: 100, strawberries: 80, yogurt: 50 },
-    { calories: 400, fat: 5, protein: 15 },
+    { calories: 400, glucides: 5, proteines: 15, lipides: 420 },
     [0, 1, 0, 0, 1, 0],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -88,7 +88,7 @@ const pizza = new Food(
     10.99,
     'Authentic Mexican tacos with seasoned beef, salsa, and guacamole',
     { beef: 200, salsa: 50, guacamole: 30 },
-    { calories: 700, fat: 35, protein: 25 },
+    { calories: 700, glucides: 35, proteines: 25, lipides: 420},
     [1, 0, 1, 0, 0, 1],
     require('../assets/foodImages/testImg1.jpg')
   );
@@ -96,3 +96,6 @@ const pizza = new Food(
   const foodArray = [pizza, salad, burger, pasta, sushi, steak, smoothie, tacos];
 
   export {foodArray};
+
+
+  
