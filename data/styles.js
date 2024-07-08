@@ -1,3 +1,4 @@
+import {StyleSheet } from 'react-native';
 
 const colors = {
     grayUltraLight: '#F9F9F9', // Very light gray
@@ -21,4 +22,59 @@ const colors = {
     
   };
 
-  export { colors, fontSizes };
+  const border_styles = StyleSheet.create({
+    black: {
+        borderWidth: 1, 
+        borderColor: 'black',
+    },
+    white: {
+        borderWidth: 1,
+        borderColor: 'white',
+    },
+    red: {
+        borderWidth: 1,
+        borderColor: 'red',
+    },
+    green: {
+        borderWidth: 1,
+        borderColor: 'green',
+    },
+    blue: {
+        borderWidth: 1,
+        borderColor: 'blue',
+    },
+    yellow: {
+        borderWidth: 1,
+        borderColor: 'yellow',
+    },
+    gray: {
+        borderWidth: 1,
+        borderColor: 'gray',
+    },
+    cyan: {
+        borderWidth: 1,
+        borderColor: 'cyan',
+    },
+    magenta: {
+        borderWidth: 1,
+        borderColor: 'magenta',
+    },
+    orange: {
+        borderWidth: 1,
+        borderColor: 'orange',
+    },
+    purple: {
+        borderWidth: 1,
+        borderColor: 'purple',
+    },
+    pink: {
+        borderWidth: 1,
+        borderColor: 'pink',
+    },
+    brown: {
+        borderWidth: 1,
+        borderColor: 'brown',
+    },
+});
+
+  export { colors, fontSizes, border_styles};

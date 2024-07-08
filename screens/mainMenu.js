@@ -1,8 +1,9 @@
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { foodArray } from '../data/foodData';
 import { LogoLinksArray } from '../data/constants';
-import { colors, fontSizes } from '../data/styles';
+import { colors, fontSizes, border_styles } from '../data/styles';
 import { VSeparator, HSeparator } from '../data/elements';
+
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 // Main Menu component
@@ -10,22 +11,33 @@ const MainMenu = ({ navigation }) => {
     
     
     return (
-        <ScrollView  style={{backgroundColor: colors.white}}>
+
+        <View>
+            <ScrollView  style={{backgroundColor: colors.white}}>
+                <MainMenuListSection />
+            </ScrollView>
+
+            
+        </View>
+    );
+};
+
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+const MainMenuListSection = () => {
+    return (
+        <View>
             {foodArray.map((food, index) => (
                 <View key={index} style={general_styles.container}>    
                     {/*Main container*/}
                     <ImageSection imagePath={food.imagePath} />
 
-
-
                     <InfoSection food={food} />
-                </View>
+                </View> 
             ))}
-        </ScrollView>
+        </View>
     );
 };
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 // Image Section component
 const ImageSection = ({ imagePath }) => {
@@ -101,11 +113,11 @@ const InfoSection = ({food}) => {
 
     
             <HeaderSection food={food} />
-            <HSeparator height={2} />
+            <HSeparator height={1} />
             <View style={[Text_styles.infoContainer]}>
 
                 <LogoSection />
-                <HSeparator height={2} />
+                <HSeparator height={1} />
                 <NutritionSection nutrition={food.nutrition} />
                 
             </View>
@@ -117,29 +129,11 @@ const InfoSection = ({food}) => {
 };
 
 
-
-
-
-
-
-const Separator = () => {
-    return (
-        <View style={{
-            height: 2,
-            width:'100%',
-            backgroundColor: colors.black,
-        }}>
-        </View>
-    );
-};
-
-
-
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 const Image_styles = StyleSheet.create({
     container: {
         justifyContent: 'center', // Center items vertically
-        borderRadius: 20, // Make the border radius half of the image width/height for a circle
+        borderRadius: 12, // Make the border radius half of the image width/height for a circle
         overflow: 'hidden', // Ensure overflow is hidden for rounded corners
 
     },
@@ -248,68 +242,14 @@ const general_styles = StyleSheet.create({
 
         borderWidth: 2,
         borderColor: 'black',
-        borderRadius: 22, 
+        borderRadius: 14, 
 
         //backgroundColor: colors.grayDark,
 
     },
 });
 
-const border_styles = StyleSheet.create({
-    black: {
-        borderWidth: 1, 
-        borderColor: 'black',
-    },
 
-    white: {
-        borderWidth: 1,
-        borderColor: 'white',
-    },
-    red: {
-        borderWidth: 1,
-        borderColor: 'red',
-    },
-    green: {
-        borderWidth: 1,
-        borderColor: 'green',
-    },
-    blue: {
-        borderWidth: 1,
-        borderColor: 'blue',
-    },
-    yellow: {
-        borderWidth: 1,
-        borderColor: 'yellow',
-    },
-    gray: {
-        borderWidth: 1,
-        borderColor: 'gray',
-    },
-    cyan: {
-        borderWidth: 1,
-        borderColor: 'cyan',
-    },
-    magenta: {
-        borderWidth: 1,
-        borderColor: 'magenta',
-    },
-    orange: {
-        borderWidth: 1,
-        borderColor: 'orange',
-    },
-    purple: {
-        borderWidth: 1,
-        borderColor: 'purple',
-    },
-    pink: {
-        borderWidth: 1,
-        borderColor: 'pink',
-    },
-    brown: {
-        borderWidth: 1,
-        borderColor: 'brown',
-    },
-});
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 export default MainMenu;

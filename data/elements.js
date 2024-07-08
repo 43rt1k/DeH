@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet} from 'react-native';
 import { colors } from './styles';
 
 export const HSeparator = ({height=1, color='black'}) => {
@@ -24,4 +24,5 @@ export const VSeparator = ({width=1, color='black'}) => {
         </View>
     );
 };
+
 
