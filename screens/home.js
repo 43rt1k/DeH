@@ -1,40 +1,93 @@
-import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
 import { foodArray } from '../data/foodData';
 import { LogoLinksArray } from '../data/constants';
 import { colors, fontSizes, border_styles } from '../data/styles';
-import { VSeparator, HSeparator } from '../data/elements';
+import { VSeparator, HSeparator } from '../components/elements';
+import { useState } from 'react';
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 // Main Menu component
 const MainMenu = ({ navigation }) => {
     
-    
+
+
     return (
 
         <View>
             <ScrollView  style={{backgroundColor: colors.white}}>
-                <MainMenuListSection />
+                    <MainMenuListSection />
+
             </ScrollView>
 
-            
         </View>
     );
 };
 
+
+
+
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 const MainMenuListSection = () => {
+    const [modalVisible, setModalVisible] = useState(false);
+    const [selectedFood, setSelectedFood] = useState(null);
+
+    const foodDetailsPress = (food) => {
+        setSelectedFood(food);
+        setModalVisible(true);
+    };
+
+    const renderModalContent = () => {
+        if (selectedFood) {
+            return (
+                <View>
+                    <Text style={styles.modalTitle}>{selectedFood.name}</Text>
+                    <Text style={styles.modalContent}>Price: {selectedFood.price}</Text>
+                    <Text style={styles.modalContent}>Calories: {selectedFood.nutrition.calories}</Text>
+                    <Text style={styles.modalContent}>Proteins: {selectedFood.nutrition.proteines}g</Text>
+                    <Text style={styles.modalContent}>Lipids: {selectedFood.nutrition.lipides}g</Text>
+                    <Text style={styles.modalContent}>Glucides: {selectedFood.nutrition.glucides}g</Text>
+                </View>
+            );
+        }
+        return null;
+    };
+
     return (
         <View>
             {foodArray.map((food, index) => (
+            <TouchableOpacity key={index} onPress={() => foodDetailsPress(food)}>
+
                 <View key={index} style={general_styles.container}>    
                     {/*Main container*/}
                     <ImageSection imagePath={food.imagePath} />
 
                     <InfoSection food={food} />
                 </View> 
+            </TouchableOpacity>
             ))}
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}>
+
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        {renderModalContent()}
+                        <TouchableOpacity
+                            style={styles.closeButton}
+                            onPress={() => setModalVisible(false)}>
+
+                            <Text style={styles.closeButtonText}>Close</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+
         </View>
     );
 };
@@ -167,7 +220,12 @@ const Text_styles = StyleSheet.create({
         //paddingLeft: 10, // Add padding to the left to create some space between image and text
         borderRadius: 20, // Make the border radius half of the image width/height for a circle
 
-    },
+
+        borderWidth: 2,
+        borderColor: 'black',
+        borderRadius: 14, 
+        marginLeft: 10,
+    },  
 
     headerContainer: {
         flexDirection: 'row',
@@ -240,16 +298,62 @@ const general_styles = StyleSheet.create({
         margin: 10,        
 
 
-        borderWidth: 2,
+        //borderWidth: 2,
         borderColor: 'black',
         borderRadius: 14, 
 
         //backgroundColor: colors.grayDark,
 
     },
+
+
 });
 
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContainer: {
+        width: 300,
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        alignItems: 'center',
+    },
+    modalTitle: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    modalContent: {
+        fontSize: 16,
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    closeButton: {
+        backgroundColor: '#2196F3',
+        padding: 10,
+        borderRadius: 5,
+    },
+    closeButtonText: {
+        color: '#fff',
+        fontSize: 16,
+    },
+});
+
+
+
+
 
 export default MainMenu;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet} from 'react-native';
-import { colors } from './styles';
+import { colors } from '../data/styles';
 
 export const HSeparator = ({height=1, color='black'}) => {
     return (
