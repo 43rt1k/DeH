@@ -1,9 +1,9 @@
-import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, TouchableHighlight, Modal, Dimensions} from 'react-native';
 import { foodArray } from '../../data/foodData';
-import { LogoLinksArray, LogoName } from '../../data/constants';
-import { colors, fontSizes, border_styles } from '../../data/styles';
-import { VSeparator, HSeparator } from '../../components/elements';
-import { useState } from 'react';
+import { LogoLinksArray, LogoName, SortName , FilterName} from '../../data/constants';
+import { fontSizes } from '../../data/styles';
+import { HSeparator } from '../../components/elements';
+import { useState, useRef } from 'react';
 import { DetailsMenu} from '../detailsMenu'
 
 const MainMenuListSection = () => {
@@ -15,42 +15,39 @@ const MainMenuListSection = () => {
         setModalVisible(true);
     };
     
+    // Image Section component
+    const ImageView = ({ imagePath }) => {
+        return (
+            <View style={Image_styles.container}>
+                <Image source={imagePath} style={Image_styles.image} />
+            </View>
+        );
+    };
+
     return (
         <View>
             {foodArray.map((food, index) => (
             <TouchableOpacity key={index} onPress={() => foodDetailsPress(food)}>
 
-                <View key={index} style={general_styles.container}>    
+                <View key={index} style={styles.container}>    
                     {/*Main container*/}
-                    <ImageSection imagePath={food.imagePath} />
+                    <ImageView imagePath={food.imagePath} />
 
-                    <InfoSection food={food} />
+                    <InfoView food={food} />
                 </View> 
 
             </TouchableOpacity>
             ))}
 
-            <DetailsMenu     modalVisible={modalVisible}
+            <DetailsMenu    modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
                             selectedFood={selectedFood}/>
-
-
-        </View>
-    );
-};
-
-
-// Image Section component
-const ImageSection = ({ imagePath }) => {
-    return (
-        <View style={Image_styles.container}>
-            <Image source={imagePath} style={Image_styles.image} />
         </View>
     );
 };
 
 // Text Section component
-const InfoSection = ({food}) => {
+const InfoView = ({food}) => {
     
     const HeaderSection = ({food}) => {
         return (
@@ -62,7 +59,7 @@ const InfoSection = ({food}) => {
         );
     };
 
-    const LogoSection = ({food}) => {
+    const LogoView = ({food}) => {
         
         return (
             <View style={[Image_styles.logoContainer]}>
@@ -73,7 +70,7 @@ const InfoSection = ({food}) => {
         );
     };
 
-    const NutritionSection = ({nutrition}) => {
+    const NutritionView = ({nutrition}) => {
         return (
             <View style={Text_styles.nutritionContainer}>
     
@@ -118,9 +115,9 @@ const InfoSection = ({food}) => {
             <HSeparator height={1} />
             <View style={[Text_styles.infoContainer]}>
 
-                <LogoSection food={food} />
+                <LogoView food={food} />
                 <HSeparator height={1} />
-                <NutritionSection nutrition={food.nutrition} />
+                <NutritionView nutrition={food.nutrition} />
                 
             </View>
         </View>
@@ -129,6 +126,107 @@ const InfoSection = ({food}) => {
     
     
 };
+
+const MenuParamSection = () => {
+    return (
+        <View style={styles.menuParamContainer}>
+            
+            <FilterView />
+            <SortByView />
+        
+        </View>
+    );
+};
+
+const FilterView = () => {
+    const options = [FilterName.vegi, FilterName.noLac, FilterName.noGlut];
+    const label = FilterName.label;
+
+    return (
+        <View style={styles.buttonContainer}>
+            <MenuParamButton label={label} options={options}/>
+        </View>
+    );
+};
+
+const SortByView = () => {
+    const options = [SortName.priceLtH, SortName.priceHtL, SortName.calHtL];
+    const label = SortName.label;
+    
+    return (
+        <View style={styles.buttonContainer}>
+            <MenuParamButton label={label} options={options} />
+        </View>
+        
+    );
+};
+
+const MenuParamButton = ({label, options}) => {
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [buttonLayout, setButtonLayout] = useState(null);
+    const buttonRef = useRef(null);
+
+    if(options == null) options = ['undefined'];
+
+    const optionPress = (option) => {
+        setShowDropdown(false); // Close the dropdown after selecting an option
+    };
+
+    const showDropdownOptions = () => {
+        buttonRef.current.measure((fx, fy, width, height, px, py) => {
+            setButtonLayout({ x: px, y: py, width, height });
+            setShowDropdown(true);
+        });
+    };
+
+    const OptionButton = () => {
+        return (
+            <TouchableOpacity   ref={buttonRef} 
+                                style={styles.button} 
+                                onPress={showDropdownOptions}>
+                <Text style={styles.buttonText}>{label}</Text>
+            </TouchableOpacity>
+        );
+    };
+
+    return (
+        <View style={styles.container1}>
+            
+            <OptionButton />
+
+            {showDropdown && (
+                <Modal  transparent={true} 
+                        animationType='none'
+                        visible={showDropdown}
+                        onRequestClose={() => setShowDropdown(false)}>
+
+                    <TouchableOpacity   style={styles.modalOverlay}
+                                        onPress={() => setShowDropdown(false)}>
+
+                        <View style={[styles.dropdown, { 
+                                        top: buttonLayout ? buttonLayout.y : 0,
+                                        left: buttonLayout ? buttonLayout.x + buttonLayout.width: 0, } ]}>
+
+                            {options.map((option, index) => (
+                                <TouchableOpacity   key={index} 
+                                                    style={styles.dropdownButton}
+                                                    onPress={() => optionPress(option)}>
+
+                                    <Text style={styles.dropdownButtonText}>{option}</Text>
+
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </TouchableOpacity>
+                </Modal>
+            )}
+        </View>
+
+    );
+
+};
+
+
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -238,7 +336,7 @@ const Text_styles = StyleSheet.create({
 });
 
 // General styles
-const general_styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         height: 125,
         width: 370,
@@ -255,7 +353,59 @@ const general_styles = StyleSheet.create({
 
     },
 
+    menuParamContainer: {
+        flexDirection: 'column',
+        height: '10%',
+        backgroundColor: 'grey',
 
+    },
+
+    buttonContainer: {
+        flex: 1,
+        alignItems: 'flex-start',
+        marginLeft: 15,
+    },
+    
+
+
+
+    container1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+        width: 80,
+        padding: 10,
+        backgroundColor: '#b300ff',
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    buttonText: {
+        color: '#FFF',
+        fontSize: 15,
+   
+    },
+    modalOverlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0)', // Semi-transparent background
+    },
+    dropdown: {
+        position: 'absolute',
+        backgroundColor: '#FFF',
+        borderColor: '#CCC',
+        borderWidth: 1,
+        borderRadius: 5,
+        width: 150,
+    },
+    dropdownButton: {
+        padding: 10,
+        borderBottomColor: '#CCC',
+        borderBottomWidth: 1,
+    },
+    dropdownButtonText: {
+        fontSize: 16,
+    },
 });
 
 
@@ -263,6 +413,6 @@ const general_styles = StyleSheet.create({
 
 
 
-export { MainMenuListSection };
+export { MainMenuListSection , MenuParamSection};
 
 

@@ -19,7 +19,26 @@ const LogoName = {
     Logo6: "logo6"
 };
 
-export {PagesName};
+//LtH - Lowest to highest
+//HtL - Highest to lowest
+
+const SortName = {
+    label: "Trier",
+    priceLtH: "Prix croissant",
+    priceHtL: "Prix decroissant",
+    calHtL: "Calories",
+};
+
+const FilterName = {
+    label: "Filtrer",
+    vegi: "Vegetarien",
+    noLac: "Sans lactose",
+    noGlut: "Sans gluten",
+};
+
+
+
+export {PagesName, LogoName, SortName, FilterName};
 
 const LogoLinksArray = {
     [LogoName.Logo1]: require('../assets/logo/logo1.png'),
@@ -37,4 +56,4 @@ const NavbarLinks = {
 
 const AppLogo = require('../assets/navbar/appLogo.png');
 
-export {LogoLinksArray, NavbarLinks, AppLogo, LogoName};
+export {LogoLinksArray, NavbarLinks, AppLogo};

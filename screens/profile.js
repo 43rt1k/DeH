@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Constants from 'expo-constants';
+import { View, Text, StyleSheet } from 'react-native';
 
 const Profile = ({ navigation }) => {
     return (

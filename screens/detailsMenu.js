@@ -35,13 +35,15 @@ const DetailsMenu = ({ modalVisible, setModalVisible, selectedFood }) => {
 
         <Modal  animationType="slide" transparent={true} visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
+            <TouchableOpacity style={{flex: 1}} onPress={() => setModalVisible(false)}>
 
-            <View style={General_styles.modalOverlay}>
-                <View style={General_styles.modalContainer}>
-                    <ModalContent />
-                    <CloseButton />
+                <View style={General_styles.modalOverlay }>
+                    <View style={General_styles.modalContainer}>
+                        <ModalContent />
+                        <CloseButton />
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         </Modal>
     );
 };
