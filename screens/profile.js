@@ -8,10 +8,6 @@ const Profile = ({ navigation }) => {
             </Text>
 
             
-            
-
-               
-
         
         </View>
     );

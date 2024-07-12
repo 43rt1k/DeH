@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Image, TouchableWithoutFeedback, ScrollView } from 'react-native';
 import { HSeparator } from '../components/elements';
 import { LogoView } from './sections/homeSections';
 
@@ -14,7 +14,7 @@ const DetailsMenu = ({ modalVisible, setModalVisible, selectedFood }) => {
 
     const HumanDescription = ({food}) => {
         return (
-            <View style={DetailsMenu_style.logoPriceContainer}>
+            <View style={DetailsMenu_style.humanDescriptionContainer}>
                 <Text style={DetailsMenu_style.humanDescriptionText}>{food.description}</Text>
             </View>
         );
@@ -23,18 +23,21 @@ const DetailsMenu = ({ modalVisible, setModalVisible, selectedFood }) => {
     const IngredientsView = ({food}) => {
         return (
             <View style={DetailsMenu_style.ingredientsContainer}>
-
+                {Object.entries(food.ingredients).map(([ingredient, quantity], index) => (
+                    <Text key={index} style={DetailsMenu_style.ingredientText}>
+                        {ingredient}: {quantity}g</Text>
+                ))}
             </View>
         );
     };
     
-    const NutritionView = () => {
+    const NutritionView = ({food}) => {
         return (
             <View style={DetailsMenu_style.nutritionContainer}>
-                <Text style={DetailsMenu_style.content}>Calories: {selectedFood.nutrition.calories}</Text>
-                <Text style={DetailsMenu_style.content}>Proteins: {selectedFood.nutrition.proteines}g</Text>
-                <Text style={DetailsMenu_style.content}>Lipids: {selectedFood.nutrition.lipides}g</Text>
-                <Text style={DetailsMenu_style.content}>Glucides: {selectedFood.nutrition.glucides}g</Text>
+                {Object.entries(food.nutrition).map(([nutrient, value], index) => (
+                    <Text key={index} style={DetailsMenu_style.nutritionText}>
+                        {nutrient}: {value}g</Text>
+                ))}
             </View>
         );
     };
@@ -85,15 +88,21 @@ const DetailsMenu = ({ modalVisible, setModalVisible, selectedFood }) => {
         <Modal  animationType="slide" transparent={true} visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}>
             
-            <TouchableOpacity style={{flex: 1}} onPress={() => setModalVisible(false)}>
+            <TouchableWithoutFeedback style={{flex: 1}} onPress={() => setModalVisible(false)}>
 
                 <View style={DetailsMenu_style.modalOverlay }>
-                    <View style={DetailsMenu_style.modalContainer}>
-                        <ModalContent />
-                        <CloseButton />
-                    </View>
+                    <ScrollView>
+                        <TouchableWithoutFeedback onPress={() => {}}>
+
+                            <View style={DetailsMenu_style.modalContainer}>
+                                <ModalContent />
+                                <CloseButton />
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                </ScrollView>
                 </View>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         </Modal>
     );
 };
@@ -102,28 +111,31 @@ const DetailsMenu = ({ modalVisible, setModalVisible, selectedFood }) => {
 const DetailsMenu_style = StyleSheet.create({
     modalOverlay: {
         flex: 1,
+
+        paddingVertical: 60, 
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(117, 117, 117, 0.5)',
+        backgroundColor: 'rgba(226, 159, 159, 0.786)',
     },
     modalContainer: {
-        width: '95%',
-        height: '80%',
+        flex: 1,
+        width: '93%',
         backgroundColor: '#fff',
+        marginHorizontal: 10,
         borderRadius: 10,
-        padding: 20,
+        padding: 10,
     },
     modalContentContainer: {
         flex: 1,
         flexDirection: 'column',
         width: '100%',
         alignItems: 'center',
-
-    },
-
-    imageContainer: {
-        flex: 3,
         
+    },
+    
+    imageContainer: {
+        height: 250,
+
         width: '100%',
         alignItems: 'center',
         
@@ -139,45 +151,48 @@ const DetailsMenu_style = StyleSheet.create({
 
 
     foodName: {
-        flex: 1,
+        flex: 0.5,
         fontSize: 25,
         fontWeight: 'bold',
         paddingVertical: 10,
+
     },
 
 
     logoPriceContainer: {
-        flex: 1,
+        flex: 0.3,
         flexDirection: 'row',
         paddingHorizontal: 5,
         paddingVertical: 10,
+        alignItems: 'center',
     },
     foodPrice: {
-        flex: 1,
+        flex: 0.5,
         fontSize: 25,
         fontWeight: 'bold',
         textAlign: 'right', // Align text to the left
-
     },
 
 
     humanDescriptionContainer: {
-
+        flex: 1,
+        justifyContent: 'center',
     },
     humanDescriptionText: {
         fontSize: 15,
+        marginVertical: 10,
     },
 
     ingredientsNutritionContainer: {
         flex: 1,
-        flexDirection: 'column',
+        flexDirection: 'row',
     }, 
     ingredientsContainer: {
         flex: 1,
     },
     nutritionContainer: {
         flex: 1,
-        flexDirection: 'row',
+
     },
 
 

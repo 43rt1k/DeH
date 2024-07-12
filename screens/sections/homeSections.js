@@ -316,7 +316,7 @@ const InfoView_styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         paddingHorizontal: 5,
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
     },
     logo: {
         resizeMode: 'contain',
@@ -366,7 +366,7 @@ const MenuParam_styles = StyleSheet.create({
         flex: 1,
         alignItems: 'flex-start',
         marginHorizontal: 15,
-        backgroundColor: 'red',
+        //backgroundColor: 'red',
         justifyContent: 'center',
 
 
