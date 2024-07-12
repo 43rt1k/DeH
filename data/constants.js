@@ -36,7 +36,10 @@ const FilterName = {
     noGlut: "Sans gluten",
 };
 
-
+const FoodPramName = {
+    price: "Prix",
+    cal: "Calories",
+}
 
 export {PagesName, LogoName, SortName, FilterName};
 

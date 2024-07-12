@@ -15,11 +15,11 @@ const MainMenuListSection = () => {
         setModalVisible(true);
     };
     
-    // Image Section component
-    const ImageView = ({ imagePath }) => {
+
+    const ImageView = ({ source }) => {
         return (
-            <View style={Image_styles.container}>
-                <Image source={imagePath} style={Image_styles.image} />
+            <View style={MainMenuList_styles.imageContainer}>
+                <Image source={source} style={MainMenuList_styles.image} />
             </View>
         );
     };
@@ -29,9 +29,9 @@ const MainMenuListSection = () => {
             {foodArray.map((food, index) => (
             <TouchableOpacity key={index} onPress={() => foodDetailsPress(food)}>
 
-                <View key={index} style={styles.container}>    
+                <View key={index} style={MainMenuList_styles.container}>    
                     {/*Main container*/}
-                    <ImageView imagePath={food.imagePath} />
+                    <ImageView source={food.imagePath} />
 
                     <InfoView food={food} />
                 </View> 
@@ -51,51 +51,42 @@ const InfoView = ({food}) => {
     
     const HeaderSection = ({food}) => {
         return (
-            <View style={[Text_styles.headerContainer]}>
-                <Text style={Text_styles.name}>{food.name}</Text>
-                <Text style={Text_styles.price}>{food.price.toFixed(2)}.-</Text>
+            <View style={[InfoView_styles.headerContainer]}>
+                <Text style={InfoView_styles.foodName}>{food.name}</Text>
+                <Text style={InfoView_styles.foodPrice}>{food.price.toFixed(2)}.-</Text>
     
             </View>
         );
     };
 
-    const LogoView = ({food}) => {
-        
-        return (
-            <View style={[Image_styles.logoContainer]}>
-                {food.logos.map((logo, index) => (
-                    <Image source={LogoLinksArray[logo]} key={index} style={Image_styles.logo}/>
-            ))}
-            </View>
-        );
-    };
-
+   
+    
     const NutritionView = ({nutrition}) => {
         return (
-            <View style={Text_styles.nutritionContainer}>
+            <View style={InfoView_styles.nutritionContainer}>
     
     
-                <View style={Text_styles.col}>
-                    <View style={Text_styles.row}>
-                        <Text style={Text_styles.label}>Cal</Text>
-                        <Text style={Text_styles.value}>{nutrition.calories}</Text>
+                <View style={InfoView_styles.nutritionСol}>
+                    <View style={InfoView_styles.nutritionRow}>
+                        <Text style={InfoView_styles.nutritionLabel}>Cal</Text>
+                        <Text style={InfoView_styles.nutritionValue}>{nutrition.calories}</Text>
                     </View>
-                    <View style={Text_styles.row}>
-                        <Text style={Text_styles.label}>Prot</Text>
-                        <Text style={Text_styles.value}>{nutrition.proteines}g</Text>
+                    <View style={InfoView_styles.nutritionRow}>
+                        <Text style={InfoView_styles.nutritionLabel}>Prot</Text>
+                        <Text style={InfoView_styles.nutritionValue}>{nutrition.proteines}g</Text>
                     </View>
                 </View>
                 
 
 
-                <View style={Text_styles.col}>
-                    <View style={Text_styles.row}>
-                        <Text style={Text_styles.label}>Lip</Text>
-                        <Text style={Text_styles.value}>{nutrition.lipides}g</Text>
+                <View style={InfoView_styles.nutritionСol}>
+                    <View style={InfoView_styles.nutritionRow}>
+                        <Text style={InfoView_styles.nutritionLabel}>Lip</Text>
+                        <Text style={InfoView_styles.nutritionValue}>{nutrition.lipides}g</Text>
                     </View>
-                    <View style={Text_styles.row}>
-                        <Text style={Text_styles.label}>Gluc</Text>
-                        <Text style={Text_styles.value}>{nutrition.glucides}g</Text>
+                    <View style={InfoView_styles.nutritionRow}>
+                        <Text style={InfoView_styles.nutritionLabel}>Gluc</Text>
+                        <Text style={InfoView_styles.nutritionValue}>{nutrition.glucides}g</Text>
                     </View>
     
     
@@ -104,16 +95,17 @@ const InfoView = ({food}) => {
     
         );
     };
-
+    
+    
     //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
     return (
-        <View style={[Text_styles.container]}>
+        <View style={[InfoView_styles.container]}>
 
     
             <HeaderSection food={food} />
             <HSeparator height={1} />
-            <View style={[Text_styles.infoContainer]}>
+            <View style={[InfoView_styles.infoContainer]}>
 
                 <LogoView food={food} />
                 <HSeparator height={1} />
@@ -127,9 +119,23 @@ const InfoView = ({food}) => {
     
 };
 
-const MenuParamSection = () => {
+const LogoView = ({food}) => {
+        
     return (
-        <View style={styles.menuParamContainer}>
+        <View style={[InfoView_styles.logoContainer]}>
+            {food.logos.map((logo, index) => (
+                <Image source={LogoLinksArray[logo]} key={index} style={InfoView_styles.logo}/>
+        ))}
+        </View>
+    );
+};
+export {LogoView};
+//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
+
+const MenuParamSection = () => {
+    
+    return (
+        <View style={MenuParam_styles.container}>
             
             <FilterView />
             <SortByView />
@@ -143,7 +149,7 @@ const FilterView = () => {
     const label = FilterName.label;
 
     return (
-        <View style={styles.buttonContainer}>
+        <View style={MenuParam_styles.paramContainer}>
             <MenuParamButton label={label} options={options}/>
         </View>
     );
@@ -154,7 +160,7 @@ const SortByView = () => {
     const label = SortName.label;
     
     return (
-        <View style={styles.buttonContainer}>
+        <View style={MenuParam_styles.paramContainer}>
             <MenuParamButton label={label} options={options} />
         </View>
         
@@ -182,16 +188,15 @@ const MenuParamButton = ({label, options}) => {
     const OptionButton = () => {
         return (
             <TouchableOpacity   ref={buttonRef} 
-                                style={styles.button} 
+                                style={MenuParam_styles.button} 
                                 onPress={showDropdownOptions}>
-                <Text style={styles.buttonText}>{label}</Text>
+                <Text style={MenuParam_styles.buttonText}>{label}</Text>
             </TouchableOpacity>
         );
     };
 
     return (
-        <View style={styles.container1}>
-            
+        <View>
             <OptionButton />
 
             {showDropdown && (
@@ -200,19 +205,19 @@ const MenuParamButton = ({label, options}) => {
                         visible={showDropdown}
                         onRequestClose={() => setShowDropdown(false)}>
 
-                    <TouchableOpacity   style={styles.modalOverlay}
+                    <TouchableOpacity   style={MenuParam_styles.modalOverlay}
                                         onPress={() => setShowDropdown(false)}>
 
-                        <View style={[styles.dropdown, { 
+                        <View style={[MenuParam_styles.dropdown, { 
                                         top: buttonLayout ? buttonLayout.y : 0,
                                         left: buttonLayout ? buttonLayout.x + buttonLayout.width: 0, } ]}>
 
                             {options.map((option, index) => (
                                 <TouchableOpacity   key={index} 
-                                                    style={styles.dropdownButton}
+                                                    style={MenuParam_styles.dropdownButton}
                                                     onPress={() => optionPress(option)}>
 
-                                    <Text style={styles.dropdownButtonText}>{option}</Text>
+                                    <Text style={MenuParam_styles.dropdownButtonText}>{option}</Text>
 
                                 </TouchableOpacity>
                             ))}
@@ -230,113 +235,8 @@ const MenuParamButton = ({label, options}) => {
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-const Image_styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center', // Center items vertically
-        borderRadius: 12, // Make the border radius half of the image width/height for a circle
-        overflow: 'hidden', // Ensure overflow is hidden for rounded corners
 
-    },
-
-    image: {
-        resizeMode: 'cover',
-        height: '100%',
-        width: 125,
-    },
-
-    logoContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        width: '100%',
-        paddingHorizontal: 5,
-        justifyContent: 'space-between',
-    },
-    logo: {
-        resizeMode: 'contain',
-        width: 25,    
-    },
-});
-
-const Text_styles = StyleSheet.create({
-    container: {
-        flex: 2,
-        flexDirection: 'column',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center', // Align text to the center
-        //paddingLeft: 10, // Add padding to the left to create some space between image and text
-        borderRadius: 20, // Make the border radius half of the image width/height for a circle
-
-
-        borderWidth: 2,
-        borderColor: 'black',
-        borderRadius: 14, 
-        marginLeft: 10,
-    },  
-
-    headerContainer: {
-        flexDirection: 'row',
-        paddingHorizontal: 5,
-    },
-
-    name: {
-        flex: 1,
-        fontSize: fontSizes.header,
-        fontWeight: 'bold',
-        //marginBottom: 5,
-
-
-    },
-
-    infoContainer: {
-        flex: 5,
-        flexDirection: 'column',
-
-        width: '100%',
-    },
-
-    price: {
-        flex: 1,
-        fontSize: fontSizes.price,
-        fontWeight: 'bold',
-        textAlign: 'right', // Align text to the left
-
-    },
-
-    nutritionContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: 5,
-    },
-
-    col: {
-        flex: 1,
-        flexDirection: 'column',
-    },
-
-    row: {
-        flex: 1,
-        flexDirection: 'row',
-    },
-    
-    label: {
-        fontSize: fontSizes.nutrition,
-        flex: 1,
-        textAlign: 'left',
-        textTransform: 'lowercase',
-
-    },
-    value: {
-        fontSize: fontSizes.nutrition,
-        flex: 1.5,
-        textAlign: 'left',
-        fontWeight: 'bold',
-
-    },
-});
-
-// General styles
-const styles = StyleSheet.create({
+const MainMenuList_styles = StyleSheet.create({
     container: {
         height: 125,
         width: 370,
@@ -353,27 +253,126 @@ const styles = StyleSheet.create({
 
     },
 
-    menuParamContainer: {
+
+    imageContainer: {
+        justifyContent: 'center', // Center items vertically
+        borderRadius: 12, // Make the border radius half of the image width/height for a circle
+        overflow: 'hidden', // Ensure overflow is hidden for rounded corners
+
+    },
+    image: {
+        resizeMode: 'cover',
+        height: '100%',
+        width: 125,
+    },
+
+});
+
+const InfoView_styles = StyleSheet.create({
+    container: {
+        flex: 2,
+        flexDirection: 'column',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center', // Align text to the center
+        //paddingLeft: 10, // Add padding to the left to create some space between image and text
+        borderRadius: 20, // Make the border radius half of the image width/height for a circle
+
+
+        borderWidth: 2,
+        borderColor: 'black',
+        borderRadius: 14, 
+        marginLeft: 10,
+    },  
+
+
+    infoContainer: {
+        flex: 5,
+        flexDirection: 'column',
+
+        width: '100%',
+    },
+    headerContainer: {
+        flexDirection: 'row',
+        paddingHorizontal: 5,
+    },
+    foodName: {
+        flex: 1,
+        fontSize: fontSizes.header,
+        fontWeight: 'bold',
+        //marginBottom: 5,
+    },
+    foodPrice: {
+        flex: 1,
+        fontSize: fontSizes.price,
+        fontWeight: 'bold',
+        textAlign: 'right', // Align text to the left
+
+    },
+
+
+    logoContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        width: '100%',
+        paddingHorizontal: 5,
+        justifyContent: 'space-between',
+    },
+    logo: {
+        resizeMode: 'contain',
+        width: 25,    
+    },
+    
+
+    nutritionContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        padding: 5,
+    },
+    nutritionСol: {
+        flex: 1,
+        flexDirection: 'column',
+    },
+    nutritionRow: {
+        flex: 1,
+        flexDirection: 'row',
+    },
+    nutritionLabel: {
+        fontSize: fontSizes.nutrition,
+        flex: 1,
+        textAlign: 'left',
+        textTransform: 'lowercase',
+
+    },
+    nutritionValue: {
+        fontSize: fontSizes.nutrition,
+        flex: 1.5,
+        textAlign: 'left',
+        fontWeight: 'bold',
+
+    },
+
+});
+
+const MenuParam_styles = StyleSheet.create({
+       
+    container: {
         flexDirection: 'column',
         height: '10%',
         backgroundColor: 'grey',
 
     },
-
-    buttonContainer: {
+    paramContainer: {
         flex: 1,
         alignItems: 'flex-start',
-        marginLeft: 15,
-    },
-    
-
-
-
-    container1: {
-        flex: 1,
+        marginHorizontal: 15,
+        backgroundColor: 'red',
         justifyContent: 'center',
-        alignItems: 'center',
+
+
     },
+
+
     button: {
         width: 80,
         padding: 10,
@@ -386,6 +385,8 @@ const styles = StyleSheet.create({
         fontSize: 15,
    
     },
+
+
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0)', // Semi-transparent background
@@ -406,9 +407,8 @@ const styles = StyleSheet.create({
     dropdownButtonText: {
         fontSize: 16,
     },
+    
 });
-
-
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 
