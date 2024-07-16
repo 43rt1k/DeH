@@ -2,12 +2,12 @@
 import { LogoName } from './constants';
 
 class Food  {
-    constructor(name, price, description, ingredients, nutrition, logos, imagePath){
+    constructor(name, price, description, ingredients, nutritions, logos, imagePath){
         this.name = name; 
         this.price = price; 
         this.description = description;
         this.ingredients = ingredients;
-        this.nutrition = nutrition;
+        this.nutritions = nutritions;
         this.logos = logos;
         this.imagePath = imagePath;
     }

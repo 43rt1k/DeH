@@ -1,6 +1,6 @@
 import { View, ScrollView } from 'react-native';
 import { colors } from '../data/styles';
-import {MainMenuListSection, MenuParamSection} from './sections/homeSections'
+import {MainMenuList_1Section, MenuParam_1Section} from './sections/homeSections'
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -11,8 +11,9 @@ const MainMenu = ({ navigation }) => {
 
         <View>
             <ScrollView  style={{backgroundColor: colors.white}}>
-                <MenuParamSection />
-                <MainMenuListSection />
+                <MenuParam_1Section />
+
+                <MainMenuList_1Section />
 
             </ScrollView>
 
