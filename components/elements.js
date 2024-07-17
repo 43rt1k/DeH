@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Image} from 'react-native';
-import { colors } from '../data/styles';
+import { colors, borderStyles, spacingStyles } from '../data/styles';
 import { LogoLinksArray, LogoName, SortName , FilterName} from '../data/constants';
 
 
@@ -29,6 +29,37 @@ export const VSeparator = ({width=1, color='black'}) => {
     
     return (
         <View style={styles.container}></View>
+    );
+};
+
+export const Image_View = ({ source, width, height}) => {
+    
+    if(width == undefined) width = '100%';
+    if(height == undefined) height = '100%';
+
+    const styles = StyleSheet.create({
+        
+        container: {
+            justifyContent: 'center', // Center items vertically
+            alignItems: 'center', // Center items horizontally
+            borderRadius: borderStyles.radius.medium, // Adjust as needed
+            overflow: 'hidden', // Ensure overflow is hidden for rounded corners
+            height: height,
+            width: width,
+
+
+        },
+        image: {
+            width: '100%',
+            height: '100%',
+            resizeMode: 'cover', // or 'contain' or 'stretch'
+        },
+    });
+
+    return (
+        <View style={styles.container}>
+            <Image source={source} style={styles.image} />
+        </View>
     );
 };
 

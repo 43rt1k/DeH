@@ -66,6 +66,7 @@ const fontStyles = {
 
         closeButton:    fontSizes.headline,
 
+        profileInfo:    fontSizes.headline,
     },
 
     color: {
@@ -95,7 +96,6 @@ const borderStyles = {
     color: {
         primary:   'white',
     },
-
 };
 
 const backgroundStyles = {
@@ -117,8 +117,63 @@ const backgroundStyles = {
         },
 };
 
+const spacingStyles = {
+    margin: {
+        low:            2,
+        medium:         5,
+        high:           10,
+        large:          15,
+        extraLarge:     20
+    },
+    padding: {
+        low:            2,
+        medium:         5,
+        high:           10,
+        large:          15,
+        extraLarge:     20,
+    },
+};
 
-  export { colors, fontStyles, borderStyles, backgroundStyles};
+export { colors, fontSizes, fontStyles, borderStyles, backgroundStyles, spacingStyles};
+
+const background_style = StyleSheet.create({
+    
+    containerPrimary: {
+        backgroundColor: backgroundStyles.color.primary,
+    },
+    containerSecondary: {
+        margin: spacingStyles.margin.high,
+        padding: spacingStyles.padding.low,
+        borderRadius: borderStyles.radius.high,
+        backgroundColor: backgroundStyles.color.secondary,
+    },
+});
+
+const text_style = StyleSheet.create({
+    textPrimary: {
+        color: fontStyles.color.primary,
+        fontSize: fontSizes.headline,
+        fontWeight: 'bold',
+        padding: spacingStyles.padding.high,
+    },
+
+});
+
+const position_style = StyleSheet.create({
+    centerCenter: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: spacingStyles.padding.low,
+    },
+    leftCenter: {
+        alignItems: 'flex-start',
+        justifyContent: 'center',
+        padding: spacingStyles.padding.low,
+        paddingLeft: spacingStyles.padding.extraLarge,
+    },
+});
+
+export {background_style, text_style, position_style};
 
 
   const border_styles = StyleSheet.create({

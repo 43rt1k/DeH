@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Image, TouchableWithoutFeedback, ScrollView, SectionListComponent } from 'react-native';
-import { HSeparator } from '../components/elements';
-import { LogoView } from '../components/elements';
-import { fontStyles, borderStyles, backgroundStyles, colors } from '../data/styles';
+import { HSeparator, LogoView, Image_View} from '../components/elements';
+import { fontStyles, borderStyles, backgroundStyles, colors, spacingStyles } from '../data/styles';
 
 const DetailsMenu_2Section = ({ modalVisible, setModalVisible, selectedFood }) => {
 
@@ -9,16 +8,16 @@ const DetailsMenu_2Section = ({ modalVisible, setModalVisible, selectedFood }) =
         modalOverlay: {
             flex: 1,
     
-            paddingVertical: 60, 
+            paddingVertical: spacingStyles.padding.extraLarge * 3, 
             alignItems: 'center',
             justifyContent: 'center',
             
             backgroundColor: backgroundStyles.transparent.primary(),
+
         },
         modalContainer: {
-        
-            padding: 10,
-            marginHorizontal: 5,
+            padding: spacingStyles.padding.high,
+            marginHorizontal: spacingStyles.margin.medium,
             borderRadius: borderStyles.radius.medium,
             
             backgroundColor: backgroundStyles.color.secondary,
@@ -28,13 +27,16 @@ const DetailsMenu_2Section = ({ modalVisible, setModalVisible, selectedFood }) =
     
     return (
 
-        <Modal  animationType="slide" 
-                transparent={true} 
-                visible={modalVisible}
-                onRequestClose={() => setModalVisible(false)}
-                style={styles.modalOverlay}>
+        <Modal  
+            animationType="slide" 
+            transparent={true} 
+            visible={modalVisible}
+            onRequestClose={() => setModalVisible(false)}
+            style={styles.modalOverlay}>
         
-            <TouchableWithoutFeedback style={{flex: 1}} onPress={() => setModalVisible(false)}>
+            <TouchableWithoutFeedback 
+                style={{flex: 1}} 
+                    onPress={() => setModalVisible(false)}>
 
                 <View style={styles.modalOverlay }>
                     <ScrollView>
@@ -59,9 +61,9 @@ const Close_Button = ({toDoFunc, toDoVal = false}) => {
     const styles = StyleSheet.create({            
         container: {
             flex: 1,
-            margin: 5,
+            margin: spacingStyles.margin.medium,
             backgroundColor: colors.black,
-            padding: 10,
+            padding: spacingStyles.padding.high,
             borderRadius: borderStyles.radius.medium,
             alignItems: 'center',
         },
@@ -73,9 +75,11 @@ const Close_Button = ({toDoFunc, toDoVal = false}) => {
     });
 
     return(
-    <TouchableOpacity   style={styles.container}
-                        onPress={() => toDoFunc(toDoVal)}>
+    <TouchableOpacity   
+        style={styles.container}
+        onPress={() => toDoFunc(toDoVal)}>
         <Text style={styles.text}>Close</Text>
+
     </TouchableOpacity>
     )
 
@@ -98,7 +102,7 @@ const ModalContent_3Section = ({selectedFood}) => {
             fontSize: fontStyles.size.foodNameDesc,
             color: fontStyles.color.primary,
             fontWeight: 'bold',
-            paddingVertical: 10,
+            paddingVertical: spacingStyles.padding.high,
     
         },
     
@@ -107,7 +111,8 @@ const ModalContent_3Section = ({selectedFood}) => {
 
     return (
         <View style={styles.container}>
-            <Image_View source={selectedFood.imagePath} />
+            
+            <Image_View source={selectedFood.imagePath} height={250} />
 
             <Text style={styles.foodName}>{selectedFood.name}</Text>
 
@@ -125,7 +130,7 @@ const ModalContent_3Section = ({selectedFood}) => {
     );
 };
 
-const Image_View = ({ source }) => {
+const _Image_View = ({ source }) => {
 
     const styles = StyleSheet.create({
         container: {
@@ -152,6 +157,8 @@ const Image_View = ({ source }) => {
     );
 };
 
+
+
 const LogoPrice_View = ({selectedFood}) => {
 
     const styles = StyleSheet.create({
@@ -159,8 +166,8 @@ const LogoPrice_View = ({selectedFood}) => {
         container: {
             flex: 0.3,
             flexDirection: 'row',
-            paddingHorizontal: 5,
-            paddingVertical: 10,
+            paddingHorizontal: spacingStyles.padding.medium,
+            paddingVertical: spacingStyles.padding.high,
             alignItems: 'center',
             
         },
@@ -187,12 +194,12 @@ const HumanDescription_View = ({food}) => {
         container: {
             flex: 1,
             justifyContent: 'center',
-            padding: 5,
+            padding: spacingStyles.padding.medium,
     
         },
         text: {
             fontSize: fontStyles.size.humanDesc,
-            marginVertical: 10,
+            marginVertical: spacingStyles.padding.high,
             color: fontStyles.color.primary,
         },
     });
@@ -212,8 +219,8 @@ const IngNut_4Section = ({selectedFood}) => {
         container: {
             flex: 1,
             flexDirection: 'row',
-            padding: 10,
-            paddingBottom: 20,
+            padding: spacingStyles.padding.high,
+            paddingBottom: spacingStyles.padding.high * 2,
         }, 
     });
 
@@ -231,9 +238,9 @@ const Ingredients_View = ({food}) => {
     return (
         <View style={IngNut_style.container}>
             {Object.entries(food.ingredients).map(([ingredient, quantity], index) => (
-                <View style={IngNut_style.textContainer}>
-                    <Text key={index} style={IngNut_style.label}>{ingredient}: </Text>
-                    <Text key={index} style={IngNut_style.value}>{quantity}</Text>
+                <View key={index} style={IngNut_style.textContainer}>
+                    <Text style={IngNut_style.label}>{ingredient}: </Text>
+                    <Text style={IngNut_style.value}>{quantity}</Text>
 
                 </View>
             ))}
@@ -245,9 +252,9 @@ const Nutrition_View = ({food}) => {
     return (
         <View style={IngNut_style.container}>
             {Object.entries(food.nutritions).map(([nutrition, quantity], index) => (
-                <View style={IngNut_style.textContainer}>
-                    <Text key={index} style={IngNut_style.label}>{nutrition}: </Text>
-                    <Text key={index} style={IngNut_style.value}>{quantity}g</Text>
+                <View key={index} style={IngNut_style.textContainer}>
+                    <Text style={IngNut_style.label}>{nutrition}: </Text>
+                    <Text style={IngNut_style.value}>{quantity}g</Text>
 
                 </View>
             ))}
