@@ -147,6 +147,7 @@ const Header_View = ({food}) => {
             fontSize: fontStyles.size.foodName,
             fontWeight: 'bold',
             color: fontStyles.color.colored,
+            paddingLeft: spacingStyles.padding.large,
             //marginBottom: 5,
         },
         foodPrice: {

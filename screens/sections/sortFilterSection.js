@@ -7,7 +7,7 @@ import { useState, useRef } from 'react';
 
 
 
-export const MenuParam_1Section = () => {
+export const SortFilter_1Section = () => {
     const styles = StyleSheet.create({
         container: {
             flexDirection: 'row',

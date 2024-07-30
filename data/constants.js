@@ -19,6 +19,7 @@ const LogoName = {
     Logo6:          "logo6"
 };
 
+
 //LtH - Lowest to highest
 //HtL - Highest to lowest
 
@@ -66,7 +67,11 @@ const NavbarLinks = {
     [PagesName.PROFILE]: require('../assets/navbar/profile.png'),
 };
 
-const AppLogo = require('../assets/navbar/appLogo.png');
+
+const AppLogo = {
+    square: require('../assets/navbar/appLogo.png'),
+    wide: require('../assets/navbar/headerLogo.png'),
+};
 
 const AvatarLink = require('../assets/avatar.jpg');
 

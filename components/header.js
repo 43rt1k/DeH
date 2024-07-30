@@ -1,8 +1,8 @@
 
 import { StyleSheet, Text, Image, View } from 'react-native';
 import { AppLogo } from '../data/constants';
-import { fontStyles, backgroundStyles } from '../data/styles';
-
+import { fontStyles, backgroundStyles, spacingStyles, borderStyles } from '../data/styles';
+import { Image_View } from './elements';
 
 const Header = ({ navigation, route, options }) => {
 
@@ -11,13 +11,16 @@ const Header = ({ navigation, route, options }) => {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      height: 120,
+      height: 80,
       backgroundColor: backgroundStyles.color.secondary,
-      paddingHorizontal: 20,
-      paddingTop: 40,
+      padding: spacingStyles.padding.high,
+      paddingHorizontal: spacingStyles.padding.extraLarge,
+      paddingTop: 50,
+
+      
   },
   text: {
-    flex: 4,
+    flex: 1,
     color: fontStyles.color.secondary,
     fontSize: fontStyles.size.mainHeader,
     fontWeight: 'bold',
@@ -29,26 +32,9 @@ const Header = ({ navigation, route, options }) => {
 return (
     <View style={styles.container}>
 
-      <ImageSection source={AppLogo} />
+      <Image_View source={AppLogo.wide} height={20} width={100}/>
       <Text style={styles.text}>Some so many fancyness slogan</Text>
     </View>
-  );
-};
-
-const ImageSection = ({source}) => {
-  const styles = StyleSheet.create({
-    image: {
-      flex: 1,
-      width:50, // Adjust the size as needed
-      height: 50, // Adjust the size as needed
-      resizeMode: 'contain',
-      marginLeft: 20,
-        
-    },
-  });
-
-  return (
-    <Image source={source} style={styles.image} />
   );
 };
 

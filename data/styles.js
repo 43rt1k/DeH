@@ -51,7 +51,7 @@ const fontSizes = {
 
 const fontStyles = {
     size: {
-        mainHeader:     fontSizes.title1,
+        mainHeader:     fontSizes.callout,
 
         foodName:       fontSizes.title3,
         foodPrice:      fontSizes.title2,

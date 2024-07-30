@@ -1,10 +1,42 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { NavbarLinks } from '../data/constants';
+import { Image_View } from './elements';
+import { backgroundStyles, borderStyles, colors, spacingStyles } from '../data/styles';
+
 
 const TabBar = ({ state, navigation }) => {
+
+    const styles = StyleSheet.create({
+        container: {
+            flexDirection: 'row',
+            height: 60,
+            alignItems: 'center',
+            borderWidth: 2,
+            borderColor: '#d80000',
+            margin: spacingStyles.margin.medium,
+            paddingHorizontal: 20,
+            backgroundColor: backgroundStyles.color.secondary,
+            position: 'absolute',
+            bottom: 20, // Position 20 units from the bottom
+            left: 20,   // Position 20 units from the left
+            right: 20,  // Position 20 units from the right
+            borderRadius: borderStyles.radius.high, // Optional: To give a floating effect with rounded corners
+        },
+        button: {
+            flex: 1,
+            height: '60%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: borderStyles.radius.medium,
+            margin: spacingStyles.margin.medium,
+            marginHorizontal: spacingStyles.margin.large,
+            marginBottom: 10,
+        },
+    });
+
     return (
-        <View style={Bar_styles.container}>
+        <View style={styles.container}>
             {state.routes.map((route, index) => {
 
                 const isFocused = state.index === index;
@@ -19,9 +51,9 @@ const TabBar = ({ state, navigation }) => {
 
                 return (
                     <TouchableOpacity   key={route.key} onPress={onPress}
-                                        style={[Bar_styles.button, { backgroundColor: isFocused ? '#262626' : '#6d6b6b75' }]} >
+                                        style={[styles.button, { backgroundColor: isFocused ? '#262626' : '#6d6b6b75' }]} >
 
-                        <ImageSection source={NavbarLinks[route.name]} />
+                        <Image_View source={NavbarLinks[route.name]} height={25} contain={true}/>
                         
                     </TouchableOpacity>
                 );
@@ -30,46 +62,6 @@ const TabBar = ({ state, navigation }) => {
     );
 };
 
-const ImageSection = ({source}) => {
-    return (
-        <Image source={source} style={Image_style.image} />
-    );
-};
 
-const Image_style = StyleSheet.create({
-    image: {
-
-        width: 24, // Adjust the size as needed
-        height: 24, // Adjust the size as needed
-        resizeMode: 'contain',
-
-    },
-});
-
-const Bar_styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        height: 80,
-        alignItems: 'center',
-        borderTopWidth: 1,
-        borderTopColor: '#ccc',
-        paddingHorizontal: 20,
-        marginBottom: 10,
-    },
-
-    button: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10,
-        padding: 10,
-        marginHorizontal: 20,
-    },
-    label: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#ffffff',
-    },
-});
 
 export default TabBar;

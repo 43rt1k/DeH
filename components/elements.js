@@ -32,10 +32,15 @@ export const VSeparator = ({width=1, color='black'}) => {
     );
 };
 
-export const Image_View = ({ source, width, height}) => {
+export const Image_View = ({ source, width, height, contain=false}) => {
     
     if(width == undefined) width = '100%';
+    
     if(height == undefined) height = '100%';
+    
+    var _resizeMode;
+    if(contain == false) _resizeMode = 'cover';
+    else _resizeMode = 'contain';
 
     const styles = StyleSheet.create({
         
@@ -52,7 +57,7 @@ export const Image_View = ({ source, width, height}) => {
         image: {
             width: '100%',
             height: '100%',
-            resizeMode: 'cover', // or 'contain' or 'stretch'
+            resizeMode: _resizeMode,
         },
     });
 

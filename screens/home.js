@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, TouchableHighlight, Modal, Dimensions} from 'react-native';
 import { backgroundStyles, colors } from '../data/styles';
 import { MainMenuList_1Section } from './sections/homeSections'
-import { MenuParam_1Section } from './sections/menuParamSection';
+import { SortFilter_1Section } from './sections/sortFilterSection';
 import React, { useState } from 'react';
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -28,12 +28,11 @@ const MainMenu = ({ navigation }) => {
         <View>
             <ScrollView  
                 style={styles.container}
-                bounces={bounceAtBottom}
                 alwaysBounceVertical={false}
                 decelerationRate='normal' // Use "fast" for a rigid feel
                 onScroll={handleScroll}>
 
-                <MenuParam_1Section />
+                <SortFilter_1Section />
 
                 <MainMenuList_1Section />
 
