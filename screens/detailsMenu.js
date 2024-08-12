@@ -1,29 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Image, TouchableWithoutFeedback, ScrollView, SectionListComponent } from 'react-native';
-import { HSeparator, LogoView, Image_View} from '../components/elements';
-import { fontStyles, borderStyles, backgroundStyles, colors, spacingStyles } from '../data/styles';
+import { HSeparator, LogoView, Image_View, VSeparator, Close_Button} from '../components/elements';
+import { fontStyles, borderStyles, backgroundStyles, colors, spacingStyles, backgroundPreset } from '../data/styles';
 
 const DetailsMenu_2Section = ({ modalVisible, setModalVisible, selectedFood }) => {
-
-    const styles = StyleSheet.create({
-        modalOverlay: {
-            flex: 1,
-    
-            paddingVertical: spacingStyles.padding.extraLarge * 3, 
-            alignItems: 'center',
-            justifyContent: 'center',
-            
-            backgroundColor: backgroundStyles.transparent.primary(),
-
-        },
-        modalContainer: {
-            padding: spacingStyles.padding.high,
-            marginHorizontal: spacingStyles.margin.medium,
-            borderRadius: borderStyles.radius.medium,
-            
-            backgroundColor: backgroundStyles.color.secondary,
-        },
-
-    });
     
     return (
 
@@ -32,19 +11,19 @@ const DetailsMenu_2Section = ({ modalVisible, setModalVisible, selectedFood }) =
             transparent={true} 
             visible={modalVisible}
             onRequestClose={() => setModalVisible(false)}
-            style={styles.modalOverlay}>
+            style={backgroundPreset.modalOverlay}>
         
             <TouchableWithoutFeedback 
                 style={{flex: 1}} 
                     onPress={() => setModalVisible(false)}>
 
-                <View style={styles.modalOverlay }>
+                <View style={backgroundPreset.modalOverlay }>
                     <ScrollView>
                         <TouchableWithoutFeedback onPress={() => {}}>
 
-                            <View style={styles.modalContainer}>
+                            <View style={backgroundPreset.modalContainer}>
                                 <ModalContent_3Section  selectedFood={selectedFood}/>
-                                <Close_Button toDoFunc={setModalVisible} />
+                                <Close_Button setVisible={setModalVisible} />
                             </View>
                         </TouchableWithoutFeedback>
 
@@ -56,34 +35,6 @@ const DetailsMenu_2Section = ({ modalVisible, setModalVisible, selectedFood }) =
     );
 };
 
-const Close_Button = ({toDoFunc, toDoVal = false}) => {
-
-    const styles = StyleSheet.create({            
-        container: {
-            flex: 1,
-            margin: spacingStyles.margin.medium,
-            backgroundColor: colors.black,
-            padding: spacingStyles.padding.high,
-            borderRadius: borderStyles.radius.medium,
-            alignItems: 'center',
-        },
-        text: {
-            fontWeight: 'bold',
-            color: fontStyles.color.closeButton,
-            fontSize: fontStyles.size.closeButton,
-        },
-    });
-
-    return(
-    <TouchableOpacity   
-        style={styles.container}
-        onPress={() => toDoFunc(toDoVal)}>
-        <Text style={styles.text}>Close</Text>
-
-    </TouchableOpacity>
-    )
-
-};
 
 //––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
@@ -95,20 +46,26 @@ const ModalContent_3Section = ({selectedFood}) => {
             flexDirection: 'column',
             width: '100%',
             alignItems: 'center',
+            marginHorizontal: spacingStyles.margin.low,
             
         },
         foodName: {
             flex: 0.5,
-            fontSize: fontStyles.size.foodNameDesc,
+            fontSize: fontStyles.size.title3,
             color: fontStyles.color.primary,
             fontWeight: 'bold',
-            paddingVertical: spacingStyles.padding.high,
+            paddingVertical: spacingStyles.margin.high,
     
         },
     
    
     });
-
+    const HSeparator_View = () => {
+        return (
+            <HSeparator width={2} color={borderStyles.color.secondary}/>
+        );
+    };
+    
     return (
         <View style={styles.container}>
             
@@ -118,46 +75,17 @@ const ModalContent_3Section = ({selectedFood}) => {
 
             <LogoPrice_View selectedFood={selectedFood} />
 
-            <HSeparator width={2} />
+            <HSeparator_View />
 
             <HumanDescription_View food={selectedFood}/>
 
-            <HSeparator width={2} />
+            <HSeparator_View />
 
             <IngNut_4Section selectedFood={selectedFood} />
            
         </View>
     );
 };
-
-const _Image_View = ({ source }) => {
-
-    const styles = StyleSheet.create({
-        container: {
-            height: 250,
-            
-            width: '100%',
-            alignItems: 'center',
-            
-            justifyContent: 'center', // Center items vertically
-            borderRadius: borderStyles.radius.high, // Make the border radius half of the image width/height for a circle
-            overflow: 'hidden', // Ensure overflow is hidden for rounded corners
-        },
-        image: {
-            width: '100%',
-            resizeMode: 'contain', //Ou cover pour remplir
-            
-        },
-    });
-
-    return (
-        <View style={styles.container}>
-            <Image source={source} style={styles.image} />
-        </View>
-    );
-};
-
-
 
 const LogoPrice_View = ({selectedFood}) => {
 
@@ -166,14 +94,14 @@ const LogoPrice_View = ({selectedFood}) => {
         container: {
             flex: 0.3,
             flexDirection: 'row',
-            paddingHorizontal: spacingStyles.padding.medium,
-            paddingVertical: spacingStyles.padding.high,
+            paddingHorizontal: spacingStyles.margin.medium,
+            paddingVertical: spacingStyles.margin.high,
             alignItems: 'center',
             
         },
         foodPrice: {
             flex: 0.5,
-            fontSize: fontStyles.size.foodPriceDesc,
+            fontSize: fontStyles.size.title1,
             fontWeight: 'bold',
             textAlign: 'right', // Align text to the left
             color: fontStyles.color.primary,
@@ -194,12 +122,12 @@ const HumanDescription_View = ({food}) => {
         container: {
             flex: 1,
             justifyContent: 'center',
-            padding: spacingStyles.padding.medium,
+            padding: spacingStyles.margin.medium,
     
         },
         text: {
-            fontSize: fontStyles.size.humanDesc,
-            marginVertical: spacingStyles.padding.high,
+            fontSize: fontStyles.size.headline,
+            marginVertical: spacingStyles.margin.high,
             color: fontStyles.color.primary,
         },
     });
@@ -219,14 +147,17 @@ const IngNut_4Section = ({selectedFood}) => {
         container: {
             flex: 1,
             flexDirection: 'row',
-            padding: spacingStyles.padding.high,
-            paddingBottom: spacingStyles.padding.high * 2,
+            padding: spacingStyles.margin.high,
+            paddingBottom: spacingStyles.margin.high * 2,
         }, 
     });
 
     return (
         <View style={styles.container}>
             <Ingredients_View food={selectedFood} />
+
+            <VSeparator width={1} color={borderStyles.color.ternary} />
+
             <Nutrition_View food={selectedFood} />
 
         </View>
@@ -265,18 +196,22 @@ const Nutrition_View = ({food}) => {
 const IngNut_style = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
     },
     textContainer: {
         flexDirection: 'row',
+        marginVertical: spacingStyles.margin.low,
     },
     label: {
-        flex: 1,
-        fontSize: fontStyles.size.ingrLabel,
+        flex: 3,
+        fontSize: fontStyles.size.subheadline,
         color: fontStyles.color.primary,
+        textAlign: 'right',
+        paddingRight: spacingStyles.margin.high,
     },
     value: {
-        flex: 1,
-        fontSize: fontStyles.size.ingrValue,
+        flex: 2,
+        fontSize: fontStyles.size.subheadline,
         color: fontStyles.color.primary,
     },
 });

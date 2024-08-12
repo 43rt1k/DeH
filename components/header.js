@@ -13,16 +13,15 @@ const Header = ({ navigation, route, options }) => {
       justifyContent: 'space-between',
       height: 80,
       backgroundColor: backgroundStyles.color.secondary,
-      padding: spacingStyles.padding.high,
-      paddingHorizontal: spacingStyles.padding.extraLarge,
+      padding: spacingStyles.margin.high,
+      paddingHorizontal: spacingStyles.margin.extraLarge,
       paddingTop: 50,
-
       
   },
   text: {
     flex: 1,
     color: fontStyles.color.secondary,
-    fontSize: fontStyles.size.mainHeader,
+    fontSize: fontStyles.size.callout,
     fontWeight: 'bold',
     numberOfLines: 2,
     marginLeft: 20,
@@ -32,7 +31,7 @@ const Header = ({ navigation, route, options }) => {
 return (
     <View style={styles.container}>
 
-      <Image_View source={AppLogo.wide} height={20} width={100}/>
+      <Image_View source={AppLogo.wide} height={20} width={100} radius={borderStyles.radius.low}/>
       <Text style={styles.text}>Some so many fancyness slogan</Text>
     </View>
   );

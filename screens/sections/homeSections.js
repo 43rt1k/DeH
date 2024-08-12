@@ -1,33 +1,30 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, TouchableHighlight, Modal, Dimensions} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, TouchableHighlight, Modal, Dimensions } from 'react-native';
 import { foodArray } from '../../data/foodData';
-import { LogoLinksArray, LogoName, SortName , FilterName} from '../../data/constants';
-import { fontStyles, borderStyles, backgroundStyles, spacingStyles} from '../../data/styles';
-import { HSeparator, LogoView, Image_View } from '../../components/elements';
-import { useState, useRef } from 'react';
-import { DetailsMenu_2Section} from '../detailsMenu'
+import { fontStyles, borderStyles, backgroundStyles, spacingStyles } from '../../data/styles';
+import { HSeparator, LogoView, Image_View, VSeparator } from '../../components/elements';
+import { DetailsMenu_2Section } from '../detailsMenu';
+import { MainColors } from '../../data/styles';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-export const MainMenuList_1Section = () => {
-   
+export const MainMenuList_1Section = ({ sortBy }) => {
     const styles = StyleSheet.create({
-            
         container: {
             backgroundColor: backgroundStyles.color.primary,
+            paddingBottom: spacingStyles.margin.extraLarge * 3.5,
         },
         menuContainer: {
-            height: 150,
             width: 370,
+            height: 150,
             flexDirection: 'row',
-            padding: spacingStyles.padding.high,
-            borderRadius: borderStyles.radius.high,
+            padding: spacingStyles.margin.high,
+            borderRadius: borderStyles.radius.medium,
             backgroundColor: backgroundStyles.color.secondary,
-
-            margin: spacingStyles.margin.medium,  
-            marginVertical: spacingStyles.margin.high,     
+            margin: spacingStyles.margin.medium,
+            marginVertical: spacingStyles.margin.high,
         },
     });
-    
+
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedFood, setSelectedFood] = useState(null);
 
@@ -36,207 +33,237 @@ export const MainMenuList_1Section = () => {
         setModalVisible(true);
     };
 
+    const sortFoods = (foods, criteria) => {
+        switch (criteria) {
+            case 'Price: Low to High':
+                return [...foods].sort((a, b) => a.price - b.price);
+            case 'Price: High to Low':
+                return [...foods].sort((a, b) => b.price - a.price);
+            case 'Calories: High to Low':
+                return [...foods].sort((a, b) => b.nutritions.calories - a.nutritions.calories);
+            case 'Popularity':
+                // Assume there is a popularity attribute; adjust as needed
+                return [...foods].sort((a, b) => b.popularity - a.popularity);
+            default:
+                return foods;
+        }
+    };
+
+    const sortedFoodArray = sortFoods(foodArray, sortBy);
+
     return (
         <View style={styles.container}>
-            {foodArray.map((food, index) => (
-            <TouchableOpacity key={index} onPress={() => foodDetailsPress(food)}>
-
-                <View key={index} style={styles.menuContainer}>    
-
-                    <Image_View source={food.imagePath} width={125}/>
-
-                    <Info_2Section food={food} />
-                </View> 
-
-            </TouchableOpacity>
+            {sortedFoodArray.map((food, index) => (
+                <TouchableOpacity key={index} onPress={() => foodDetailsPress(food)}>
+                    <View style={styles.menuContainer}>
+                        <Image_View source={food.imagePath} width={125} />
+                        <Info_2Section food={food} />
+                    </View>
+                </TouchableOpacity>
             ))}
 
-            <DetailsMenu_2Section   modalVisible={modalVisible}
-                                    setModalVisible={setModalVisible}
-                                    selectedFood={selectedFood}/>
+            <DetailsMenu_2Section 
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                selectedFood={selectedFood} 
+            />
         </View>
     );
 };
 
-const Immage_View = ({ source }) => {
-    
-    const styles = StyleSheet.create({
-        
-        container: {
-            justifyContent: 'center', // Center items vertically
-            borderRadius: borderStyles.radius.medium, // Make the border radius half of the image width/height for a circle
-            overflow: 'hidden', // Ensure overflow is hidden for rounded corners
 
-        },
-        image: {
-            resizeMode: 'cover',
+const Info_2Section = ({ food }) => {
+    const styles = StyleSheet.create({
+        container: {
+            flex: 5,
+            flexDirection: 'row',
             height: '100%',
-            width: 125,
+            alignItems: 'center',
+            justifyContent: 'center',
+            //paddingHorizontal: spacingStyles.margin.low,
+        },
+    });
+
+
+    return (
+        <View style={styles.container}>
+
+            <View style={{ flex: 15 }}>
+                <Header_View food={food} />
+                <HSeparator_View />
+                <Nutrition_View nutritions={food.nutritions} />
+                <HSeparator_View />
+                <LogoView food={food} />
+            </View>
+
+            <Flash_View food={food} />
+
+        </View>
+    );
+};
+
+const Header_View = ({ food }) => {
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            flexDirection: 'row',
+            paddingHorizontal: spacingStyles.margin.medium,
+            alignItems: 'center',
+        },
+        foodName: {
+            flex: 3,
+            fontSize: 15,
+            fontWeight: 'bold',
+            color: fontStyles.color.primary,
+            padding: spacingStyles.margin.low,
+            paddingHorizontal: spacingStyles.margin.low,
+        },
+        foodPrice: {
+            flex: 2,
+            fontSize: fontStyles.size.title2,
+            paddingRight: spacingStyles.margin.low,
+            fontWeight: 'bold',
+            textAlign: 'right',
+            color: fontStyles.color.primary,
         },
     });
 
     return (
         <View style={styles.container}>
-            <Image source={source} style={styles.image} />
-        </View>
-    );
-};
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-const Info_2Section = ({food}) => {
-    
-    const styles = StyleSheet.create({
-        container: {
-            flex: 2,
-            flexDirection: 'column',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center', // Align text to the center
-            //paddingLeft: 10, // Add padding to the left to create some space between image and text
-            //borderRadius: 20, // Make the border radius half of the image width/height for a circle
-    
-        
-    
-            borderWidth: borderStyles.width.low,
-            borderColor: borderStyles.color.primary,
-            borderRadius: borderStyles.radius.high,
-            paddingVertical: spacingStyles.padding.medium,
-            marginLeft: spacingStyles.margin.high,
-        },  
-    
-    
-        infoContainer: {
-            flex: 5,
-            flexDirection: 'column',
-    
-            width: '100%',
-        },
-    });
-
-    return (
-        <View style={[styles.container]}>
-
-    
-            <Header_View food={food} />
-            <HSeparator height={1}
-                        color={borderStyles.color.primary}/>
-            <View style={[styles.infoContainer]}>
-
-                <LogoView food={food} />
-                <HSeparator height={1} 
-                            color={borderStyles.color.primary}/>
-                <Nutrition_View nutritions={food.nutritions} />
-                
-            </View>
-        </View>
-    );
-
-    
-    
-};
-
-const Header_View = ({food}) => {
-    const styles = StyleSheet.create({
-        container: {
-            flexDirection: 'row',
-            paddingHorizontal: spacingStyles.padding.medium,
-        },
-        foodName: {
-            flex: 1,
-            fontSize: fontStyles.size.foodName,
-            fontWeight: 'bold',
-            color: fontStyles.color.colored,
-            paddingLeft: spacingStyles.padding.large,
-            //marginBottom: 5,
-        },
-        foodPrice: {
-            flex: 1,
-            fontSize: fontStyles.size.foodPrice,
-            fontWeight: 'bold',
-            textAlign: 'right', // Align text to the left
-            color: fontStyles.color.colored,
-    
-        },
-    });
-    
-    return (
-        <View style={[styles.container]}>
             <Text style={styles.foodName}>{food.name}</Text>
-            <Text style={styles.foodPrice}>{food.price.toFixed(2)}.-</Text>
-
+            <Text style={styles.foodPrice}>{food.price.toFixed(2)}</Text>
         </View>
     );
 };
 
-const Nutrition_View = ({nutritions}) => {
+const HSeparator_View = () => {
+    const styles = StyleSheet.create({
+        container: {
+            height: 0.8,
+            width: '98%',
+            marginVertical: spacingStyles.margin.medium,
+        },
+    });
 
+    return (
+        <View style={styles.container}>
+            <HSeparator height={0.8} color={borderStyles.color.ternary} />
+        </View>
+    );
+};
+
+const Nutrition_View = ({ nutritions }) => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
             flexDirection: 'row',
-            padding: spacingStyles.padding.medium,
+            justifyContent: 'space-between',
+            padding: spacingStyles.margin.medium,
         },
         column: {
             flex: 1,
             flexDirection: 'column',
-        },
-        row: {
-            flex: 1,
-            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         label: {
-            fontSize: fontStyles.size.nutritionLabel,
-            flex: 1,
+            fontSize: fontStyles.size.callout,
             textAlign: 'left',
             textTransform: 'lowercase',
             color: fontStyles.color.primary,
-    
         },
         value: {
-            fontSize: fontStyles.size.nutritionValue,
-            flex: 1.5,
+            fontSize: fontStyles.size.subheadline,
             textAlign: 'left',
             fontWeight: 'bold',
             color: fontStyles.color.primary,
-    
         },
     });
 
+    const VSeparator_View = () => {
+        return (
+            <VSeparator width={0.8} color={borderStyles.color.ternary} />
+        );
+    };
+
     return (
         <View style={styles.container}>
+            <View style={styles.column}>
+                <Text style={styles.label}>Cal</Text>
+                <Text style={styles.value}>{nutritions.calories}</Text>
+            </View>
 
+            <VSeparator_View />
 
             <View style={styles.column}>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Cal</Text>
-                    <Text style={styles.value}>{nutritions.calories}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Prot</Text>
-                    <Text style={styles.value}>{nutritions.proteines}g</Text>
-                </View>
+                <Text style={styles.label}>Prot</Text>
+                <Text style={styles.value}>{nutritions.proteines}g</Text>
             </View>
-            
 
+            <VSeparator_View />
 
             <View style={styles.column}>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Lip</Text>
-                    <Text style={styles.value}>{nutritions.lipides}g</Text>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.label}>Gluc</Text>
-                    <Text style={styles.value}>{nutritions.glucides}g</Text>
-                </View>
-
-
+                <Text style={styles.label}>Lip</Text>
+                <Text style={styles.value}>{nutritions.lipides}g</Text>
             </View>
-    </View>
 
+            <VSeparator_View />
+
+            <View style={styles.column}>
+                <Text style={styles.label}>Gluc</Text>
+                <Text style={styles.value}>{nutritions.glucides}g</Text>
+            </View>
+        </View>
     );
 };
 
+const Flash_View = ({ food }) => {
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'space-evenly',  // Space items evenly
+            height: '100%',  // Ensure the container takes the full height for vertical centering
+        },
+        icon: {
+            marginVertical: spacingStyles.margin.low,
+        },
+    });
 
+    let iconColor;
+    let flashCount;
 
+    switch (food.mainColor) {
+        case MainColors.green:
+            iconColor = MainColors.green;
+            flashCount = 1;
+            break;
+        case MainColors.yellow:
+            iconColor = MainColors.yellow;
+            flashCount = 2;
+            break;
+        case MainColors.red:
+            iconColor = MainColors.red;
+            flashCount = 3;
+            break;
+        default:
+            iconColor = MainColors.green;
+            flashCount = 1;
+    }
+
+    return (
+        <View style={styles.container}>
+            {Array.from({ length: flashCount }).map((_, index) => (
+                <Icon
+                    key={index}
+                    name="flash-on"
+                    size={20}
+                    color={iconColor}
+                    style={styles.icon}
+                />
+            ))}
+        </View>
+    );
+};

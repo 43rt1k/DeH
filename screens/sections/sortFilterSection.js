@@ -1,187 +1,129 @@
-import { View, Text, StyleSheet, TouchableOpacity, Modal} from 'react-native';
-import { SortName , FilterName, Image_View} from '../../data/constants';
-import { fontStyles, borderStyles, backgroundStyles, spacingStyles} from '../../data/styles';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { SortName, FilterName } from '../../data/constants';
+import { fontStyles, borderStyles, backgroundStyles, spacingStyles } from '../../data/styles';
+import { Settings_Button } from '../../components/elements';
 
-import { useState, useRef } from 'react';
-
-
-
-
-export const SortFilter_1Section = () => {
+export const SortFilter_1Section = ({ onSortChange }) => {
     const styles = StyleSheet.create({
         container: {
-            flexDirection: 'row',
-            height: '5%',
+            flexDirection: 'column',
             backgroundColor: backgroundStyles.color.primary,
-    
+            padding: spacingStyles.margin.medium,
         },
     });
 
     return (
         <View style={styles.container}>
-            
             <Filter_2Section />
-            <SortBy_2Section />
-        
+            <SortBy_2Section onSortChange={onSortChange} />
         </View>
     );
 };
-
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
 const Filter_2Section = () => {
+    const [activeFilters, setActiveFilters] = useState([]);
 
-    const options = [FilterName.vegi, FilterName.noLac, FilterName.noGlut];
-    const label = FilterName.label;
+    const filters = [
+        'Vegetarian',
+        'No Lactose',
+        'No Gluten',
+        'Vegan',
+        'No Nuts',
+        'No Sugar'
+    ];
 
-    return (
-        <View style={MenuParam_styles.container}>
-            <MenuParam_View label={label} options={options}/>
-        </View>
-    );
-};
+    const toggleFilter = (filter) => {
+        setActiveFilters((prevFilters) =>
+            prevFilters.includes(filter)
+                ? prevFilters.filter((item) => item !== filter)
+                : [...prevFilters, filter]
+        );
+    };
 
-const SortBy_2Section = () => {
-    const options = [SortName.priceLtH, SortName.priceHtL, SortName.calHtL];
-    const label = SortName.label;
-    
-    return (
-        <View style={MenuParam_styles.container}>
-            <MenuParam_View label={label} options={options} />
-        </View>
-        
-    );
-};
-
-const MenuParam_View = ({label, options}) => {
+    const clearFilters = () => {
+        setActiveFilters([]);
+    };
 
     const styles = StyleSheet.create({
-        modalOverlay: {
+        clearButtonContainer: {
             flex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0)', // Semi-transparent background
-        },
-        dropdown: {
-            position: 'absolute',
-            backgroundColor: '#FFF',
-            borderColor: '#CCC',
-            borderWidth: borderStyles.width.low,
-            borderRadius: borderStyles.radius.low,
-            width: 150,
-        },
-    });
-
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [buttonLayout, setButtonLayout] = useState(null);
-    const buttonRef = useRef(null);
-
-    if(options == null) options = ['undefined'];
-
-    const optionPress = (option) => {
-        setShowDropdown(false); // Close the dropdown after selecting an option
-    };
-
-    const showDropdownOptions = () => {
-        buttonRef.current.measure((fx, fy, width, height, px, py) => {
-            setButtonLayout({ x: px, y: py, width, height });
-            setShowDropdown(true);
-        });
-    };
-
-
-    return (
-        <View>
-            <MakeChoice_Button toDoFunc={showDropdownOptions} buttonRef={buttonRef} label={label}/>
-
-            {showDropdown && (
-                <Modal  transparent={true} 
-                        animationType='none'
-                        visible={showDropdown}
-                        onRequestClose={() => setShowDropdown(false)}>
-
-                    <TouchableOpacity   style={styles.modalOverlay}
-                                        onPress={() => setShowDropdown(false)}>
-
-                        <View style={[styles.dropdown, { 
-                                        top: buttonLayout ? buttonLayout.y : 0,
-                                        left: buttonLayout ? buttonLayout.x + buttonLayout.width: 0, } ]}>
-
-                            {options.map((option, index) => (
-                                <Option_Button toDoFunc={optionPress} index={index} option={option} />
-                            ))}
-                        </View>
-                    </TouchableOpacity>
-                </Modal>
-            )}
-        </View>
-
-    );
-
-};
-
-const MakeChoice_Button = ({toDoFunc, buttonRef, label}) => {
-
-    const styles = StyleSheet.create({
-        
-        container: {
-            width: 80,
-            padding: spacingStyles.padding.high,
-            backgroundColor: '#b300ff',
-            borderRadius: borderStyles.radius.medium,
             alignItems: 'center',
+            marginTop: spacingStyles.margin.medium,
         },
-        text: {
-            color: '#FFF',
-            fontSize: fontStyles.size.subheadline,
     
-        },
     });
 
     return (
-        <TouchableOpacity   ref={buttonRef} 
-                            style={styles.container} 
-                            onPress={toDoFunc}>
-            <Text style={styles.text}>{label}</Text>
-        </TouchableOpacity>
+        <View style={[General_styles.sectionContainer]}>
+            <Text style={General_styles.sectionTitle}>Filter Food</Text>
+            <View style={General_styles.buttonsContainer}>
+                {filters.map((filter) => (
+                    <Settings_Button
+                        key={filter}
+                        label={filter}
+                        isActive={activeFilters.includes(filter)}
+                        onPress={() => toggleFilter(filter)}
+                    />
+                ))}
+            </View>
+            <View style={styles.clearButtonContainer}>
+                <Settings_Button label="Clear Filters" onPress={clearFilters} large={true}/>
+            </View>
+        </View>
     );
 };
 
-const Option_Button = ({toDoFunc, index, option}) => {
+const SortBy_2Section = ({ onSortChange }) => {
+    const [activeSort, setActiveSort] = useState(null);
 
-    const styles = StyleSheet.create({
-        container: {
-            padding: spacingStyles.padding.high,
-            borderBottomColor: '#CCC',
-            borderBottomWidth: borderStyles.width.low,
-        },
-           
-        text: {
-            fontSize: fontStyles.size.subheadline,
-        },
-    });
+    const sorts = [
+        'Price: Low to High',
+        'Price: High to Low',
+        'Calories: High to Low',
+        'Popularity'
+    ];
+
+    const toggleSort = (sort) => {
+        const newSort = activeSort === sort ? null : sort;
+        setActiveSort(newSort);
+        onSortChange(newSort);  // Notify parent about the sort change
+    };
 
     return (
-        <TouchableOpacity   key={index} 
-                            style={styles.container}
-                            onPress={() => toDoFunc(option)}>
-
-            <Text style={MenuParam_styles.text}>{option}</Text>
-
-        </TouchableOpacity>
+        <View style={[General_styles.sectionContainer]}>
+            <Text style={General_styles.sectionTitle}>Sort By</Text>
+            <View style={General_styles.buttonsContainer}>
+                {sorts.map((sort) => (
+                    <Settings_Button
+                        key={sort}
+                        label={sort}
+                        isActive={activeSort === sort}
+                        onPress={() => toggleSort(sort)}
+                    />
+                ))}
+            </View>
+        </View>
     );
 };
 
-//––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
-
-const MenuParam_styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'flex-start',
-        marginHorizontal: spacingStyles.margin.large,
-        //backgroundColor: 'red',
-        justifyContent: 'center',
-
-
+const General_styles = StyleSheet.create({
+    sectionContainer: {
+        marginBottom: spacingStyles.margin.high,
+        padding: spacingStyles.margin.high,
+        borderRadius: borderStyles.radius.medium,
+        backgroundColor: backgroundStyles.color.secondary,
+    },
+    sectionTitle: {
+        textAlign: 'center',
+        marginBottom: spacingStyles.margin.medium,
+        fontWeight: 'bold',
+        fontSize: fontStyles.size.footnote,
+        color: fontStyles.color.secondary,
+    },
+    buttonsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
     },
 });
-

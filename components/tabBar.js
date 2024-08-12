@@ -12,15 +12,17 @@ const TabBar = ({ state, navigation }) => {
             flexDirection: 'row',
             height: 60,
             alignItems: 'center',
-            borderWidth: 2,
-            borderColor: '#d80000',
-            margin: spacingStyles.margin.medium,
-            paddingHorizontal: 20,
+            justifyContent: 'center', // Center the buttons horizontally
+            borderWidth: borderStyles.width.high,
+            borderColor: borderStyles.color.secondary,
+            margin: spacingStyles.margin.large,
+            marginHorizontal: spacingStyles.margin.large * 5,
+            paddingHorizontal: spacingStyles.margin.low,
             backgroundColor: backgroundStyles.color.secondary,
             position: 'absolute',
-            bottom: 20, // Position 20 units from the bottom
-            left: 20,   // Position 20 units from the left
-            right: 20,  // Position 20 units from the right
+            bottom: 0, // Position 20 units from the bottom
+            left: 0,   // Position 20 units from the left
+            right: 0,  // Position 20 units from the right
             borderRadius: borderStyles.radius.high, // Optional: To give a floating effect with rounded corners
         },
         button: {
@@ -31,9 +33,8 @@ const TabBar = ({ state, navigation }) => {
             borderRadius: borderStyles.radius.medium,
             margin: spacingStyles.margin.medium,
             marginHorizontal: spacingStyles.margin.large,
-            marginBottom: 10,
         },
-    });
+        });
 
     return (
         <View style={styles.container}>

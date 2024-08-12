@@ -35,46 +35,38 @@ const colors = {
     white:              '#FFFFFF', // White
   };
   
-const fontSizes = {
-    largeTitle:     34,
-    title1:         28,
-    title2:         22,
-    title3:         20,
-    headline:       17,
-    subheadline:    15,
-    body:           17,
-    callout:        16,
-    footnote:       13,
-    caption1:       12,
-    caption2:       11,
+const MainColors = {
+    red:                '#b70000',
+    yellow:             '#c19000',
+    green:              '#229200',
 };
 
 const fontStyles = {
+
     size: {
-        mainHeader:     fontSizes.callout,
 
-        foodName:       fontSizes.title3,
-        foodPrice:      fontSizes.title2,
-        nutritionLabel: fontSizes.headline,
-        nutritionValue: fontSizes.headline,
-
-        foodNameDesc:   fontSizes.title1,
-        foodPriceDesc:  fontSizes.title1,
-        humanDesc:      fontSizes.headline,
-        ingrLabel:      fontSizes.subheadline,
-        ingrValue:      fontSizes.subheadline,
-
-        closeButton:    fontSizes.headline,
-
-        profileInfo:    fontSizes.headline,
+        largeTitle:     34,
+        title1:         28,
+        title2:         22,
+        title3:         20,
+        headline:       18,
+        subheadline:    15,
+        body:           17,
+        callout:        15,
+        footnote:       13,
+        caption1:       12,
+        caption2:       11,
     },
 
     color: {
         primary:        colors.grayMid,
         secondary:      colors.gray,
+        ternary:        colors.grayLight,
+        quarnary:       colors.grayDark,
 
         colored:        '#9600a9',
-        closeButton:    colors.gray,
+        closeButton:    MainColors.red,
+        sendButton:     MainColors.green,
     },
 
 
@@ -82,9 +74,11 @@ const fontStyles = {
 
 const borderStyles = {
     width: {
+        tiny:           0.5,
         low:            1,
         medium:         2,
         high :          3,
+        large:          5,
     },
 
     radius: {
@@ -94,7 +88,9 @@ const borderStyles = {
     },
 
     color: {
-        primary:   'white',
+        primary:        colors.white,
+        secondary:      colors.gray,
+        ternary:        colors.grayDark,
     },
 };
 
@@ -102,19 +98,20 @@ const backgroundStyles = {
     color: {
         primary:        colors.black,
         secondary:      colors.grayDarkest,
-
+        ternary:        colors.grayDark,
+        quarnary:       colors.grayDarker,
     },
 
     transparent: {
         primary: (opacity = 0.6) => {
             const rgb = hexToRgb(colors.black,);
             return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
-          },
-          secondary: (opacity = 0.6) => {
+        },
+        secondary: (opacity = 0.6) => {
             const rgb = hexToRgb(colors.grayDarkest);
             return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`;
-          },
         },
+    },
 };
 
 const spacingStyles = {
@@ -125,37 +122,95 @@ const spacingStyles = {
         large:          15,
         extraLarge:     20
     },
-    padding: {
-        low:            2,
-        medium:         5,
-        high:           10,
-        large:          15,
-        extraLarge:     20,
-    },
 };
 
-export { colors, fontSizes, fontStyles, borderStyles, backgroundStyles, spacingStyles};
+export { colors, MainColors, fontStyles, borderStyles, backgroundStyles, spacingStyles};
 
-const background_style = StyleSheet.create({
+const backgroundPreset = StyleSheet.create({
     
-    containerPrimary: {
+    primary: {
         backgroundColor: backgroundStyles.color.primary,
     },
-    containerSecondary: {
-        margin: spacingStyles.margin.high,
-        padding: spacingStyles.padding.low,
+    secondary: {
+        flex: 1,
+        margin: spacingStyles.margin.medium,
+        padding: spacingStyles.margin.large,
         borderRadius: borderStyles.radius.high,
+        backgroundColor: backgroundStyles.color.secondary,
+
+    },
+    modalOverlay: {
+        flex: 1,
+        paddingVertical: spacingStyles.margin.extraLarge * 3, 
+        alignItems: 'center',
+        justifyContent: 'center',
+        
+        backgroundColor: backgroundStyles.transparent.primary(),
+
+    },
+    modalContainer: {
+        justifyContent: 'center', // Center the content if it’s shorter than the container
+        alignItems: 'center', // Center the content horizontally if needed
+        padding: spacingStyles.margin.high,
+        paddingHorizontal: spacingStyles.margin.high,
+
+        marginHorizontal: spacingStyles.margin.medium,
+        borderRadius: borderStyles.radius.medium,
         backgroundColor: backgroundStyles.color.secondary,
     },
 });
 
-const text_style = StyleSheet.create({
-    textPrimary: {
+const textPreset = StyleSheet.create({
+    small: {
+        fontSize: fontStyles.size.caption1,
+        marginBottom: 8,
         color: fontStyles.color.primary,
-        fontSize: fontSizes.headline,
-        fontWeight: 'bold',
-        padding: spacingStyles.padding.high,
+        textAlign: 'justify',
     },
+    medium: {
+        color: fontStyles.color.primary,
+        fontSize: fontStyles.headline,
+        fontWeight: 'bold',
+        padding: spacingStyles.margin.high,
+    },
+    firstTitle: {
+        flex: 1,
+        fontSize: fontStyles.size.title2,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        margin: spacingStyles.margin.medium,
+        color: fontStyles.color.secondary,
+    },
+    chapterTitle: {
+        fontSize: fontStyles.size.title3,
+        fontWeight: 'bold',
+        marginTop: spacingStyles.margin.extraLarge,
+        marginBottom: spacingStyles.margin.medium,
+        color: fontStyles.color.ternary,
+    },
+    chapterTitleCentered: {
+        textAlign: 'center',
+        fontSize: fontStyles.size.title3,
+        fontWeight: 'bold',
+        marginBottom: spacingStyles.margin.extraLarge*2,
+        color: fontStyles.color.ternary,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 8,
+        marginBottom: 4,
+        color: fontStyles.color.secondary,
+    },
+    commentItalic: {
+        flex: 1,
+        textAlign: 'left',
+        fontStyle: 'italic',
+        color: fontStyles.color.secondary,
+        fontSize: fontStyles.size.caption1,
+        margin: spacingStyles.margin.high,
+        marginBottom: spacingStyles.margin.large,
+    }
 
 });
 
@@ -163,17 +218,17 @@ const position_style = StyleSheet.create({
     centerCenter: {
         alignItems: 'center',
         justifyContent: 'center',
-        padding: spacingStyles.padding.low,
+        padding: spacingStyles.margin.low,
     },
     leftCenter: {
         alignItems: 'flex-start',
         justifyContent: 'center',
-        padding: spacingStyles.padding.low,
-        paddingLeft: spacingStyles.padding.extraLarge,
+        padding: spacingStyles.margin.low,
+        paddingLeft: spacingStyles.margin.extraLarge,
     },
 });
 
-export {background_style, text_style, position_style};
+export {backgroundPreset, textPreset, position_style};
 
 
   const border_styles = StyleSheet.create({
